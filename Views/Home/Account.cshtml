@@ -1,0 +1,54 @@
+@{
+    ViewData["Title"] = "Account Page";
+}
+
+@model NewTransactionViewModel
+<div class="text-center">
+    <div class="row">
+        <div class="col-8">
+            <h1 class="display-4">Welcome @Model.AccountUser.FirstName @Model.AccountUser.LastName!</h1>
+        </div>
+        <div class="col-2 offset-2">
+            <a href="/LogOut" class="btn btn-outline-secondary">Logout</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <form asp-action="Transaction" method="post">
+            <div class="form-group row">
+                <label asp-for="NewTransaction.Amount" class="col-3 col-form-label">Deposit/Withdrawl</label>
+                <div class="col-6">
+                    <input type="number" class="form-control" asp-for="NewTransaction.Amount">
+                    <span asp-validation-for="NewTransaction.Amount"></span>
+                </div>
+                <div class="col-3">
+                    <input type="submit" class="btn btn-outline-success" value="Submit">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-4 offset-1">
+        <div class="form-group row">
+            <label for="Balance" class="col-5 col-form-label">Account Balance</label>
+            <div class="col-7">
+                <input disabled type="text" name="Balance" class="form-control" value="$ @ViewBag.Balance">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-10 offset-1">
+        <div class="row">
+            <h1>Recent Transactions</h1>
+        </div>
+        <ul class="list-group list-group-flush">
+            @{
+                foreach(Transaction t in Model.AccountUser.Transactions)
+                {
+                    <li class="list-group-item">@t.Amount | Posted: @t.Created_at</li>
+                }
+            }
+        </ul>
+    </div>
+</div>
